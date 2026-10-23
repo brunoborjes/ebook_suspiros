@@ -7,7 +7,7 @@
   <title>Suspiros — Livro de Poesias por Cleverson Borges</title>
   <meta name="description" content="118 suspiros em forma de poesia — sobre amor, perda, fé e recomeço. Adquira o e-book de Cleverson Borges." />
 
-  <!-- Tipografia Google Fonts -->
+  <!-- fontes do Google: serifada pra dar clima de livro + sans pra leitura do resto -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -16,10 +16,10 @@
 </head>
 
 <body>
-  <!-- Contêiner para o efeito do dente-de-leão -->
+  <!-- aqui entram as partículas flutuantes (efeito dente-de-leão), controlado via JS -->
   <div id="dandelion-container"></div>
 
-  <!-- Navegação Principal -->
+  <!-- menu fixo no topo -->
   <header class="header">
     <div class="container header-container">
       <a href="#top" class="brand-logo">Suspiros</a>
@@ -33,7 +33,7 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- hero / primeira dobra -->
   <section class="hero" id="top">
     <div class="container hero-grid">
       <div class="hero-content fade-up">
@@ -44,7 +44,7 @@
         </p>
 
         <div class="hero-actions">
-          <a href="#formatos" class="btn btn-lg btn-primary">Comprar E-book Agora</a>
+          <a href="#formatos" class="btn btn-lg btn-primary">Compre seu livro</a>
           <a href="#sobre" class="btn btn-lg btn-outline">Conhecer a Obra</a>
         </div>
 
@@ -64,10 +64,10 @@
         </div>
       </div>
 
-      <!-- Capa Real do Livro Isolada -->
+      <!-- capa do livro, isolada do fundo -->
       <div class="hero-media fade-up">
         <div class="book-container">
-          <!-- Lembre-se: a imagem precisa ser o PNG transparente gerado no remove.bg -->
+          <!-- ATENÇÃO: essa imagem precisa ser o PNG transparente (gerado no remove.bg), senão a sombra/glow fica estranha -->
           <img src="./assets/suspiros-capa.png" alt="Capa do livro Suspiros, de Cleverson Borges" class="book-standalone" />
         </div>
       </div>
@@ -79,7 +79,7 @@
     </a>
   </section>
 
-  <!-- Seção Citação / Inspiração -->
+  <!-- citação de abertura, pra dar um respiro antes do texto sobre o livro -->
   <section class="quote-section fade-up">
     <div class="container container-narrow">
       <div class="quote-card">
@@ -92,7 +92,7 @@
     </div>
   </section>
 
-  <!-- Seção Sobre o Livro -->
+  <!-- sobre o livro -->
   <section class="about-section" id="sobre">
     <div class="container">
       <div class="section-header center fade-up">
@@ -109,7 +109,7 @@
         </p>
       </div>
 
-      <!-- Grid de Destaques / Temas -->
+      <!-- os 3 pilares/temas do livro -->
       <div class="themes-grid">
         <div class="theme-card fade-up" style="transition-delay: 0.1s;">
           <div class="theme-number">01</div>
@@ -130,7 +130,7 @@
     </div>
   </section>
 
-  <!-- Seção Amostra de Poesia -->
+  <!-- trecho de amostra do livro, pra dar um gostinho antes de pedir pra comprar -->
   <section class="excerpt-section fade-up" id="trecho">
     <div class="container container-narrow">
       <div class="poem-display">
@@ -149,7 +149,7 @@
     </div>
   </section>
 
-  <!-- Seção Formatos e Checkout (3 Opções Claras + Hover Delicado) -->
+  <!-- parte de vendas: 3 formatos, com o do meio marcado como mais escolhido -->
   <section class="pricing-section" id="formatos">
     <div class="container">
       <div class="section-header center fade-up">
@@ -158,7 +158,7 @@
       </div>
 
       <div class="pricing-grid-3">
-        <!-- Opção 1: Ebook -->
+        <!-- ebook: mais barato, entrega na hora -->
         <div class="price-card-light fade-up" style="transition-delay: 0.1s;">
           <h3 class="price-title-serif">Ebook</h3>
           <div class="price-box-light">
@@ -168,10 +168,10 @@
           <p class="price-desc-light">
             Versão digital em PDF, com sumário navegável. Acesso imediato por e-mail após a compra.
           </p>
-          <a href="#" class="btn btn-outline btn-block">Comprar ebook</a>
+          <a href="https://pay.cakto.com.br/fqmkv2d_1077411" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block">Comprar ebook</a>
         </div>
 
-        <!-- Opção 2: Capa Simples (Destaque MAIS ESCOLHIDO) -->
+        <!-- capa simples: o card em destaque (borda + selo "mais escolhido") -->
         <div class="price-card-light featured-light fade-up" style="transition-delay: 0.2s;">
           <div class="popular-badge">MAIS ESCOLHIDO</div>
           <h3 class="price-title-serif">Capa Simples</h3>
@@ -183,10 +183,10 @@
           <p class="price-desc-light">
             Edição física em brochura: leve e prática, ideal pra levar pra qualquer lugar.
           </p>
-          <a href="#" class="btn btn-primary btn-block">Comprar capa simples</a>
+          <a href="https://pay.cakto.com.br/ut442j5_1077436" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block">Comprar capa simples</a>
         </div>
 
-        <!-- Opção 3: Capa Dura -->
+        <!-- capa dura: edição especial, mais cara -->
         <div class="price-card-light fade-up" style="transition-delay: 0.3s;">
           <h3 class="price-title-serif">Capa Dura</h3>
           <div class="price-box-light">
@@ -197,13 +197,15 @@
           <p class="price-desc-light">
             Edição especial, com acabamento reforçado. Ideal pra presentear ou guardar por muito tempo.
           </p>
-          <a href="#" class="btn btn-outline btn-block">Comprar capa dura</a>
+          <a href="https://pay.cakto.com.br/royrdep_1077453" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block">Comprar capa dura</a>
         </div>
       </div>
     </div>
   </section>
+    </div>
+  </section>
 
-  <!-- FAQ / Perguntas Frequentes -->
+  <!-- perguntas frequentes, accordion que abre/fecha via JS -->
   <section class="faq-section" id="faq">
     <div class="container container-narrow fade-up">
       <div class="section-header center">
@@ -236,17 +238,17 @@
     </div>
   </section>
 
-  <!-- Sticky CTA Flutuante ao Rolar -->
+  <!-- barrinha fixa que aparece depois que o usuário passa da hero, só pra lembrar de comprar -->
   <div class="sticky-bar" id="stickyBar">
     <div class="container sticky-container">
       <div class="sticky-info">
         <strong>Suspiros</strong> — Cleverson Borges (118 Poesias)
       </div>
-      <a href="#formatos" class="btn btn-primary btn-sm">Garantir E-book — R\$ 29,90</a>
+      <a href="#formatos" class="btn btn-primary btn-sm">Garantir meu exemplar</a>
     </div>
   </div>
 
-  <!-- Rodapé -->
+  <!-- rodapé -->
   <footer class="footer">
     <div class="container footer-content fade-up">
       <p class="footer-brand">Suspiros</p>

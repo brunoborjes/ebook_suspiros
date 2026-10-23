@@ -1,16 +1,14 @@
-/* ==========================================================================
-   RESET & VARIÁVEIS DE DESIGN (Paleta Galáxia/Magenta baseada na Capa)
-   ========================================================================== */
+/* reset básico + variáveis de cor/fonte — paleta tirada da própria capa (tons de magenta/violeta) */
 :root {
-  --bg-main: #FBF8FA;         /* Lilás/Creme Suave de Fundo */
-  --bg-card: #F2EAEE;         /* Rosé/Lilás Claro para Cards */
-  --bg-dark: #1E1724;         /* Violeta Escuro Profundo */
-  --text-main: #251D28;       /* Grafite Violeta para Leitura */
-  --text-muted: #6E5F70;      /* Taupe Violeta Suave */
-  --primary: #C03E75;         /* Magenta/Rosa Vibrante */
-  --primary-hover: #9E2D5D;   /* Magenta Escuro */
-  --accent-purple: #8B5A96;   /* Roxo Intermediário */
-  --border-light: #E4D6DF;    /* Borda Harmônica */
+  --bg-main: #FBF8FA;         /* fundo geral, lilás bem clarinho */
+  --bg-card: #F2EAEE;         /* fundo dos cards/seções alternadas */
+  --bg-dark: #1E1724;         /* violeta escuro, usado no trecho de poesia e rodapé */
+  --text-main: #251D28;       /* cor principal do texto */
+  --text-muted: #6E5F70;      /* texto secundário, mais apagado */
+  --primary: #C03E75;         /* magenta, cor de destaque/CTA */
+  --primary-hover: #9E2D5D;   /* magenta mais escuro pro hover */
+  --accent-purple: #8B5A96;   /* roxo intermediário, uso pontual */
+  --border-light: #E4D6DF;    /* borda padrão */
   
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -49,9 +47,7 @@ body {
   max-width: 760px;
 }
 
-/* ==========================================================================
-   ANIMAÇÕES MODERNAS (Fade-Up)
-   ========================================================================== */
+/* animação de entrada usada em quase toda seção (opacidade + sobe um pouco) */
 .fade-up {
   opacity: 0;
   transform: translateY(40px);
@@ -64,9 +60,7 @@ body {
   transform: translateY(0);
 }
 
-/* ==========================================================================
-   EFEITO DENTE-DE-LEÃO
-   ========================================================================== */
+/* partículas flutuantes (tipo sementes de dente-de-leão) que sobem a tela */
 #dandelion-container {
   position: fixed;
   top: 0;
@@ -107,9 +101,7 @@ body {
   100% { transform: translate(300px, -100vh) rotate(360deg) scale(1.8); opacity: 0; }
 }
 
-/* ==========================================================================
-   CABEÇALHO & MENU
-   ========================================================================== */
+/* header fixo, encolhe um pouco quando rola a página (classe .scrolled via JS) */
 .header {
   position: sticky;
   top: 0;
@@ -183,9 +175,7 @@ body {
   opacity: 1;
 }
 
-/* ==========================================================================
-   BOTÕES GERAIS
-   ========================================================================== */
+/* botões — padrão, outline e variações de tamanho */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -238,9 +228,7 @@ body {
   font-size: 0.875rem;
 }
 
-/* ==========================================================================
-   HERO SECTION
-   ========================================================================== */
+/* hero — tem um gradiente radial no fundo pra dar aquele brilho suave */
 .hero {
   padding: 4rem 0 3rem 0;
   position: relative;
@@ -248,6 +236,10 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background: 
+    radial-gradient(circle at 75% 45%, rgba(192, 62, 117, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 20% 30%, rgba(139, 90, 150, 0.08) 0%, transparent 40%),
+    var(--bg-main);
 }
 
 .hero-grid {
@@ -258,13 +250,19 @@ body {
 }
 
 .author-tag {
-  display: inline-block;
-  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--primary);
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  background: rgba(192, 62, 117, 0.08);
+  padding: 0.35rem 1rem;
+  border-radius: 30px;
+  border: 1px solid rgba(192, 62, 117, 0.18);
+  backdrop-filter: blur(4px);
 }
 
 .hero-title {
@@ -273,6 +271,7 @@ body {
   line-height: 1.1;
   margin-bottom: 1rem;
   font-weight: 700;
+  color: var(--text-main);
 }
 
 .hero-subtitle {
@@ -305,9 +304,7 @@ body {
   color: var(--primary);
 }
 
-/* ==========================================================================
-   HERO MEDIA / MOCKUP 3D
-   ========================================================================== */
+/* capa do livro com um "glow" atrás dela (pseudo-elemento ::before) + leve rotação no hover */
 .hero-media {
   display: flex;
   justify-content: center;
@@ -320,18 +317,41 @@ body {
   transition: var(--transition);
 }
 
+.book-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  width: 90%;
+  height: 90%;
+  background: radial-gradient(circle, rgba(192, 62, 117, 0.35) 0%, rgba(139, 90, 150, 0.15) 50%, transparent 70%);
+  filter: blur(45px);
+  z-index: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: var(--transition);
+}
+
 .book-standalone {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 320px;
   height: auto;
   display: block;
-  filter: drop-shadow(-15px 20px 30px rgba(30, 23, 36, 0.45)); 
+  filter: drop-shadow(-15px 20px 30px rgba(30, 23, 36, 0.35)); 
   transition: var(--transition);
 }
 
 .book-container:hover .book-standalone {
   transform: translateY(-10px) rotate(-1.5deg);
-  filter: drop-shadow(-20px 30px 40px rgba(30, 23, 36, 0.55));
+  filter: drop-shadow(-20px 30px 40px rgba(30, 23, 36, 0.45));
+}
+
+.book-container:hover::before {
+  transform: translate(-50%, -50%) scale(1.15);
+  background: radial-gradient(circle, rgba(192, 62, 117, 0.45) 0%, rgba(139, 90, 150, 0.2) 50%, transparent 70%);
 }
 
 .scroll-indicator {
@@ -352,9 +372,7 @@ body {
   60% { transform: translateY(-3px); }
 }
 
-/* ==========================================================================
-   CITAÇÃO / LEMINSKI
-   ========================================================================== */
+/* bloco da citação do Leminski, logo abaixo da hero */
 .quote-section {
   padding: 4rem 0;
   background-color: var(--bg-card);
@@ -396,9 +414,7 @@ body {
   font-style: normal;
 }
 
-/* ==========================================================================
-   SOBRE O LIVRO
-   ========================================================================== */
+/* seção "sobre o livro" + os 3 cards de tema */
 .about-section {
   padding: 6rem 0;
 }
@@ -484,9 +500,7 @@ body {
   font-size: 0.95rem;
 }
 
-/* ==========================================================================
-   AMOSTRA POÉTICA
-   ========================================================================== */
+/* trecho de poesia em destaque, fundo escuro pra contrastar com o resto da página */
 .excerpt-section {
   padding: 5rem 0;
   background-color: var(--bg-dark);
@@ -529,9 +543,7 @@ body {
   color: var(--primary);
 }
 
-/* ==========================================================================
-   FORMATOS E PREÇOS (3 OPÇÕES CLARAS COM HOVER DELICADO)
-   ========================================================================== */
+/* os 3 cards de preço — o do meio (featured-light) tem borda mais grossa + selo */
 .pricing-section {
   padding: 6rem 0;
 }
@@ -544,7 +556,6 @@ body {
   margin-top: 3rem;
 }
 
-/* Card Claro */
 .price-card-light {
   background: #FFFFFF;
   border: 1px solid var(--border-light);
@@ -558,14 +569,12 @@ body {
   transition: var(--transition);
 }
 
-/* Efeito delicado ao passar o mouse */
 .price-card-light:hover {
   transform: translateY(-8px);
   border-color: var(--primary);
   box-shadow: 0 15px 35px rgba(192, 62, 117, 0.15);
 }
 
-/* Card Destaque ("Capa Simples") */
 .price-card-light.featured-light {
   border: 2px solid var(--primary);
 }
@@ -575,7 +584,6 @@ body {
   box-shadow: 0 20px 40px rgba(192, 62, 117, 0.22);
 }
 
-/* Badge "MAIS ESCOLHIDO" */
 .popular-badge {
   position: absolute;
   top: -15px;
@@ -592,7 +600,6 @@ body {
   white-space: nowrap;
 }
 
-/* Título em itálico */
 .price-title-serif {
   font-family: var(--font-serif);
   font-style: italic;
@@ -602,7 +609,6 @@ body {
   margin-bottom: 1.2rem;
 }
 
-/* Preço */
 .price-box-light {
   display: flex;
   align-items: baseline;
@@ -628,7 +634,6 @@ body {
   color: var(--text-muted);
 }
 
-/* Descrição */
 .price-desc-light {
   font-size: 0.95rem;
   color: var(--text-muted);
@@ -637,9 +642,7 @@ body {
   flex-grow: 1;
 }
 
-/* ==========================================================================
-   FAQ ACCORDION
-   ========================================================================== */
+/* accordion do FAQ — o show/hide do conteúdo é feito via classe .active (JS) */
 .faq-section {
   padding: 5rem 0;
   background-color: var(--bg-card);
@@ -700,9 +703,7 @@ body {
   color: var(--primary);
 }
 
-/* ==========================================================================
-   STICKY BAR & FOOTER
-   ========================================================================== */
+/* barra fixa de CTA (aparece ao rolar) + rodapé */
 .sticky-bar {
   position: fixed;
   bottom: 0;
@@ -754,9 +755,7 @@ body {
   color: var(--primary);
 }
 
-/* ==========================================================================
-   RESPONSIVIDADE COMPLETA
-   ========================================================================== */
+/* ajustes de responsividade — tablet e depois celular */
 @media (max-width: 992px) {
   .hero-grid {
     gap: 2rem;
