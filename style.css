@@ -1,0 +1,867 @@
+/* ==========================================================================
+   RESET & VARIÁVEIS DE DESIGN
+   ========================================================================== */
+:root {
+  --bg-main: #FBF8FA;         /* Lilás/Creme Suave de Fundo */
+  --bg-card: #F2EAEE;         /* Rosé/Lilás Claro para Cards */
+  --bg-dark: #1E1724;         /* Violeta Escuro Profundo (Tom Estelar) */
+  --text-main: #251D28;       /* Grafite Violeta para Leitura */
+  --text-muted: #6E5F70;      /* Taupe Violeta Suave */
+  --primary: #C03E75;         /* Magenta/Rosa Vibrante */
+  --primary-hover: #9E2D5D;   /* Magenta Escuro */
+  --accent-purple: #8B5A96;   /* Roxo Intermediário */
+  --border-light: #E4D6DF;    /* Borda Harmônica */
+  
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-soft: 0 10px 30px rgba(37, 29, 40, 0.05);
+  --shadow-hover: 0 20px 40px rgba(192, 62, 117, 0.12);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+  font-size: 1rem;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 90%;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.container-narrow {
+  max-width: 760px;
+}
+
+/* ==========================================================================
+   ANIMAÇÕES MODERNAS (Fade-Up)
+   ========================================================================== */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   EFEITO DENTE-DE-LEÃO (Tamanho Aumentado)
+   ========================================================================== */
+#dandelion-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Mantém os botões do site clicáveis */
+  z-index: 99999;       /* Aumente aqui para ficar na frente de todas as camadas */
+  overflow: hidden;
+}
+
+/* O ponto da semente (Aumentado) */
+.dandelion-seed {
+  position: absolute;
+  width: 5px;  /* Antes: 3px */
+  height: 5px; /* Antes: 3px */
+  background-color: rgba(192, 62, 117, 0.6); 
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(192, 62, 117, 0.8);
+  opacity: 0;
+  animation: floatSeed linear forwards;
+}
+
+/* A haste/pelo do dente-de-leão (Aumentado) */
+.dandelion-seed::after {
+  content: '';
+  position: absolute;
+  top: -16px;   /* Ajustado para a nova altura da haste */
+  left: 2px;    /* Centralizado com a semente */
+  width: 1.5px; /* Antes: 1px */
+  height: 18px; /* Antes: 10px */
+  background-color: rgba(192, 62, 117, 0.4);
+  transform: rotate(15deg);
+}
+
+/* Animação com escala maior */
+@keyframes floatSeed {
+  0% { 
+    transform: translate(0, 0) rotate(0deg) scale(1); /* Antes: scale(0.8) */
+    opacity: 0; 
+  }
+  15% { 
+    opacity: 1; 
+  }
+  85% { 
+    opacity: 1; 
+  }
+  100% { 
+    transform: translate(300px, -100vh) rotate(360deg) scale(1.8); /* Antes: scale(1.2) */
+    opacity: 0; 
+  }
+}
+
+/* ==========================================================================
+   CABEÇALHO & EFEITO "SUSPIRO" (INCLUI EFEITO AO ROLAR)
+   ========================================================================== */
+.header {
+  position: sticky;
+  top: 0;
+  background: rgba(251, 248, 250, 0.7); /* Mais transparente no topo */
+  backdrop-filter: blur(5px);
+  z-index: 100;
+  border-bottom: 1px solid transparent; /* Sem borda inicialmente */
+  padding: 1.5rem 0; /* Mais espaçoso no topo */
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* Transição ultra suave */
+}
+
+/* Nova classe ativada pelo JavaScript quando o usuário rola a página para baixo */
+.header.scrolled {
+  background: rgba(251, 248, 250, 0.95);
+  backdrop-filter: blur(15px);
+  padding: 0.7rem 0; /* Encolhe de forma delicada */
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 10px 30px rgba(37, 29, 40, 0.04); /* Sombra quase imperceptível */
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-logo {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  position: relative;
+  transition: var(--transition);
+  display: inline-block;
+}
+
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 1.5px;
+  bottom: -4px;
+  left: 50%;
+  background-color: var(--primary);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.nav-menu a:hover {
+  color: var(--primary);
+  transform: translateY(-3px);
+  letter-spacing: 0.5px;
+  filter: drop-shadow(0 4px 6px rgba(192, 62, 117, 0.15));
+}
+
+.nav-menu a:hover::after {
+  width: 100%;
+  opacity: 1;
+}
+
+/* ==========================================================================
+   BOTÕES E COMPONENTES
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
+  cursor: pointer;
+  border: none;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: #FFFFFF;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(192, 62, 117, 0.35);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--text-main);
+}
+
+.btn-outline:hover {
+  background-color: var(--text-main);
+  color: #FFFFFF;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(37, 29, 40, 0.15);
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.05rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-sm {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
+.hero {
+  padding: 4rem 0 3rem 0;
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.author-tag {
+  display: inline-block;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  max-width: 520px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.trust-badges {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.badge-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.badge-item stroke {
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   HERO MEDIA / MOCKUP 3D
+   ========================================================================== */
+.hero-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-container {
+  display: inline-block;
+  position: relative;
+  transition: var(--transition);
+}
+
+.book-standalone {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(-15px 20px 30px rgba(30, 23, 36, 0.45)); 
+  transition: var(--transition);
+}
+
+.book-container:hover .book-standalone {
+  transform: translateY(-10px) rotate(-1.5deg);
+  filter: drop-shadow(-20px 30px 40px rgba(30, 23, 36, 0.55));
+}
+
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: 3rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-6px); }
+  60% { transform: translateY(-3px); }
+}
+
+/* ==========================================================================
+   CITAÇÃO / LEMINSKI
+   ========================================================================== */
+.quote-section {
+  padding: 4rem 0;
+  background-color: var(--bg-card);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.quote-card {
+  text-align: center;
+  position: relative;
+  transition: var(--transition);
+}
+
+.quote-card:hover {
+  transform: scale(1.02);
+}
+
+.quote-icon {
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--primary);
+  display: block;
+  margin-bottom: -1rem;
+}
+
+.quote-text {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-style: italic;
+  color: var(--text-main);
+  margin-bottom: 1rem;
+}
+
+.quote-author {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-style: normal;
+}
+
+/* ==========================================================================
+   SOBRE O LIVRO
+   ========================================================================== */
+.about-section {
+  padding: 6rem 0;
+}
+
+.section-tag {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 2rem;
+}
+
+.center {
+  text-align: center;
+}
+
+.about-card {
+  background: #FFFFFF;
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 3rem;
+  transition: var(--transition);
+}
+
+.about-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.about-text {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--text-main);
+  margin-bottom: 1.2rem;
+}
+
+.themes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.theme-card {
+  background-color: var(--bg-card);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
+}
+
+.theme-card:hover {
+  background-color: #FFFFFF;
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+}
+
+.theme-number {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.theme-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.theme-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   AMOSTRA POÉTICA
+   ========================================================================== */
+.excerpt-section {
+  padding: 5rem 0;
+  background-color: var(--bg-dark);
+  color: #FBF8FA;
+}
+
+.poem-display {
+  text-align: center;
+  padding: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: radial-gradient(circle at center, rgba(192, 62, 117, 0.15) 0%, rgba(30, 23, 36, 0) 70%);
+  transition: var(--transition);
+}
+
+.poem-display:hover {
+  border-color: rgba(192, 62, 117, 0.4);
+  box-shadow: 0 0 30px rgba(192, 62, 117, 0.1);
+}
+
+.poem-badge {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.poem-body {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.poem-author {
+  font-size: 0.9rem;
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   FORMATOS E PREÇOS
+   ========================================================================== */
+.pricing-section {
+  padding: 6rem 0;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.price-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 2.5rem;
+  position: relative;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition);
+}
+
+.price-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.price-card.featured {
+  border: 2px solid var(--primary);
+  transform: scale(1.03);
+}
+
+.price-card.featured:hover {
+  transform: scale(1.03) translateY(-5px);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+}
+
+.price-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.price-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.price-box {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.currency {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.amount {
+  font-family: var(--font-serif);
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.shipping-tag {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+}
+
+.features-list {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+
+.features-list li {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  margin-bottom: 0.75rem;
+}
+
+.security-note {
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+}
+
+/* ==========================================================================
+   FAQ ACCORDION
+   ========================================================================== */
+.faq-section {
+  padding: 5rem 0;
+  background-color: var(--bg-card);
+}
+
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.faq-item {
+  background: #FFFFFF;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
+}
+
+.faq-item:hover {
+  border-color: var(--primary);
+}
+
+.faq-trigger {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  text-align: left;
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.faq-content {
+  padding: 0 1.5rem 1.2rem 1.5rem;
+  display: none;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.faq-item.active .faq-content {
+  display: block;
+  animation: fadeIn 0.4s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.faq-item.active .icon {
+  transform: rotate(45deg);
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   STICKY BAR & FOOTER
+   ========================================================================== */
+.sticky-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-light);
+  padding: 0.8rem 0;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 99;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+}
+
+.sticky-bar.visible {
+  transform: translateY(0);
+}
+
+.sticky-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer {
+  padding: 3rem 0;
+  background-color: var(--bg-dark);
+  color: #FBF8FA;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-brand {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-author {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-bottom: 0.5rem;
+}
+
+.footer-legal {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE COMPLETA (TABLETS E SMARTPHONES)
+   ========================================================================== */
+@media (max-width: 992px) {
+  .hero-grid {
+    gap: 2rem;
+  }
+  .book-standalone {
+    max-width: 270px;
+  }
+  .section-title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
+  .header-container {
+    padding: 0 0.5rem;
+  }
+  .nav-cta {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  .hero {
+    padding: 2rem 0;
+    min-height: auto;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr; 
+    text-align: center;
+    gap: 2.5rem;
+  }
+  .hero-subtitle {
+    margin: 0 auto 1.5rem auto;
+    font-size: 1.1rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+  .trust-badges {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .quote-section, .about-section, .pricing-section, .faq-section, .excerpt-section {
+    padding: 4rem 0;
+  }
+  .section-title {
+    font-size: 1.9rem;
+    line-height: 1.25;
+  }
+  .quote-text {
+    font-size: 1.35rem;
+  }
+  .poem-body {
+    font-size: 1.5rem;
+  }
+  .poem-display {
+    padding: 2rem 1.5rem;
+  }
+  .about-card {
+    padding: 1.5rem;
+  }
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .price-card {
+    padding: 1.8rem 1.5rem;
+  }
+  .price-card.featured {
+    transform: scale(1);
+  }
+  .price-card.featured:hover {
+    transform: scale(1) translateY(-3px);
+  }
+  .sticky-info {
+    display: none;
+  }
+  .sticky-container {
+    justify-content: center;
+  }
+  .sticky-bar .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+}
