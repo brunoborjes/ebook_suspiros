@@ -1,61 +1,85 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. FAQ Accordion Interativo
+  /* ==========================================================================
+     1. FAQ ACCORDION ACESSÍVEL (WCAG COMPLIANT)
+     ========================================================================== */
   const faqItems = document.querySelectorAll('.faq-item');
 
   faqItems.forEach(item => {
     const trigger = item.querySelector('.faq-trigger');
+    const content = item.querySelector('.faq-content');
 
     trigger.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
 
-      // Fecha todos os itens
-      faqItems.forEach(i => i.classList.remove('active'));
+      // Fecha todos os outros accordions para manter leitura limpa
+      faqItems.forEach(otherItem => {
+        const otherTrigger = otherItem.querySelector('.faq-trigger');
+        const otherContent = otherItem.querySelector('.faq-content');
+        
+        otherTrigger.setAttribute('aria-expanded', 'false');
+        otherContent.setAttribute('hidden', '');
+      });
 
-      // Se o item clicado não estava ativo, abre ele
-      if (!isActive) {
-        item.classList.add('active');
+      // Alterna o estado do item clicado
+      if (!isExpanded) {
+        trigger.setAttribute('aria-expanded', 'true');
+        content.removeAttribute('hidden');
       }
     });
   });
 
-  // 2. Transições e barras ao rolar a página (Sticky CTA + Cabeçalho Delicado)
+  /* ==========================================================================
+     2. HEADER SCROLL & STICKY BAR OBSERVER (PERFORMANTE)
+     ========================================================================== */
+  const header = document.getElementById('header');
   const stickyBar = document.getElementById('stickyBar');
   const heroSection = document.querySelector('.hero');
-  const header = document.querySelector('.header');
+
+  let ticking = false;
 
   window.addEventListener('scroll', () => {
-    
-    // A) Lógica da Barra Fixa Embaixo (CTA)
-    if (stickyBar && heroSection) {
-      const heroBottom = heroSection.getBoundingClientRect().bottom;
-      if (heroBottom < 0) {
-        stickyBar.classList.add('visible');
-      } else {
-        stickyBar.classList.remove('visible');
-      }
-    }
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
 
-    // B) Lógica do Cabeçalho Delicado (esconde o menu após rolar 50px)
-    if (header) {
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    }
-  });
+        // Adiciona classe compacta ao cabeçalho ao rolar
+        if (header) {
+          if (scrollY > 60) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+        }
 
-  // 3. Smooth Scroll para links internos
+        // Mostra a barra flutuante inferior apenas após a Hero section
+        if (stickyBar && heroSection) {
+          const heroBottom = heroSection.getBoundingClientRect().bottom;
+          if (heroBottom < 0) {
+            stickyBar.classList.add('visible');
+          } else {
+            stickyBar.classList.remove('visible');
+          }
+        }
+
+        ticking = false;
+      });
+
+      ticking = true;
+    }
+  }, { passive: true });
+
+  /* ==========================================================================
+     3. SCROLL SUAVE PARA LINKS INTERNOS
+     ========================================================================== */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-      e.preventDefault();
       const targetId = this.getAttribute('href');
-      
-      if (targetId === '#') return;
+      if (targetId === '#' || !targetId) return;
 
       const targetElement = document.querySelector(targetId);
       if (targetElement) {
+        e.preventDefault();
         targetElement.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
@@ -64,58 +88,81 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Animação moderna de "Fade Up" ao rolar a tela
+  /* ==========================================================================
+     4. INTERSECTION OBSERVER (ANIMAÇÃO FADE-UP SUAVE)
+     ========================================================================== */
   const fadeElements = document.querySelectorAll('.fade-up');
-  
-  const fadeObserver = new IntersectionObserver((entries) => {
+
+  const fadeObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        fadeObserver.unobserve(entry.target);
+        observer.unobserve(entry.target);
       }
     });
   }, {
-    threshold: 0.15,
-    rootMargin: "0px 0px -50px 0px"
+    threshold: 0.12,
+    rootMargin: "0px 0px -40px 0px"
   });
 
   fadeElements.forEach(el => fadeObserver.observe(el));
 
-  // 5. Efeito Dente-de-Leão (Ativo em Desktop e Mobile)
-  function spawnDandelionSeeds() {
-    const container = document.getElementById('dandelion-container');
-    if (!container) return;
+  /* ==========================================================================
+     5. TILT 3D SUTIL NA CAPA DO LIVRO (INTERAÇÃO DE CURSOR)
+     ========================================================================== */
+  const bookStage = document.getElementById('bookStage');
+  const bookCover = bookStage ? bookStage.querySelector('.book-standalone') : null;
 
-    // Ajusta o limite de sementes ativas: 8 no mobile (para leveza) e 15 no desktop
-    const isMobile = window.innerWidth <= 768;
-    const maxSeeds = isMobile ? 8 : 15;
+  if (bookStage && bookCover && window.innerWidth > 992) {
+    bookStage.addEventListener('mousemove', (e) => {
+      const rect = bookStage.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
 
-    setInterval(() => {
-      if (container.childElementCount >= maxSeeds) return;
+      const rotateX = (-y / rect.height) * 14;
+      const rotateY = (x / rect.width) * 14;
 
-      const seed = document.createElement('div');
-      seed.classList.add('dandelion-seed');
-      
-      // No mobile espalha melhor pela largura da tela (0 a 70vw)
-      const spawnWidth = isMobile ? 70 : 40;
-      seed.style.left = (Math.random() * spawnWidth) + 'vw';
-      seed.style.top = (60 + Math.random() * 35) + 'vh';
-      
-      const duration = 10 + (Math.random() * 8);
-      seed.style.animationDuration = duration + 's';
-      
-      container.appendChild(seed);
-      
-      setTimeout(() => {
-        if (seed.parentNode === container) {
-          container.removeChild(seed);
-        }
-      }, duration * 1000);
+      bookCover.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+    });
 
-    }, 2500); // Cria uma nova semente a cada 2,5 segundos
+    bookStage.addEventListener('mouseleave', () => {
+      bookCover.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+    });
   }
 
-  // Executa o efeito em todos os dispositivos
-  spawnDandelionSeeds();
+  /* ==========================================================================
+     6. GERADOR DE PARTÍCULAS DENTE-DE-LEÃO LEVE (SEM MEMORY LEAK)
+     ========================================================================== */
+  function initDandelionParticles() {
+    const container = document.getElementById('dandelion-container');
+    if (!container || window.innerWidth < 768) return;
 
+    // Respeita a preferência do usuário de não movimento
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    function createParticle() {
+      if (container.childElementCount >= 10) return;
+
+      const particle = document.createElement('div');
+      particle.classList.add('dandelion-particle');
+
+      const startX = Math.random() * 40; 
+      const startY = 70 + Math.random() * 30; 
+      const duration = 14 + Math.random() * 8;
+
+      particle.style.left = `${startX}vw`;
+      particle.style.top = `${startY}vh`;
+      particle.style.animationDuration = `${duration}s`;
+
+      container.appendChild(particle);
+
+      setTimeout(() => {
+        particle.remove();
+      }, duration * 1000);
+    }
+
+    setInterval(createParticle, 4000);
+  }
+
+  initDandelionParticles();
 });

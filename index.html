@@ -5,255 +5,355 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Suspiros — Livro de Poesias por Cleverson Borges</title>
-  <meta name="description" content="118 suspiros em forma de poesia — sobre amor, perda, fé e recomeço. Adquira o e-book de Cleverson Borges." />
+  <meta name="description" content="118 suspiros em forma de poesia — sobre amor, perda, fé e recomeço. Adquira o e-book ou a versão física de Cleverson Borges." />
 
-  <!-- fontes do Google: serifada pra dar clima de livro + sans pra leitura do resto -->
+  <!-- Google Fonts: Cormorant Garamond (Editorial Serif) + Plus Jakarta Sans (Interface UI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- aqui entram as partículas flutuantes (efeito dente-de-leão), controlado via JS -->
-  <div id="dandelion-container"></div>
+  <!-- Efeito de partículas sutis dente-de-leão -->
+  <div id="dandelion-container" aria-hidden="true"></div>
 
-  <!-- menu fixo no topo -->
-  <header class="header">
+  <!-- Cabeçalho Principal -->
+  <header class="header" id="header">
     <div class="container header-container">
-      <a href="#top" class="brand-logo">Suspiros</a>
-      <nav class="nav-menu">
-        <a href="#sobre">Sobre</a>
+      <a href="#top" class="brand-logo" aria-label="Suspiros — Página Inicial">
+        <span>Suspiros</span>
+      </a>
+      <nav class="nav-menu" aria-label="Navegação Principal">
+        <a href="#sobre">A Obra</a>
+        <a href="#pilares">Pilares</a>
         <a href="#trecho">Poesia</a>
         <a href="#formatos">Formatos</a>
-        <a href="#faq">FAQ</a>
+        <a href="#faq">Dúvidas</a>
       </nav>
-      <a href="#formatos" class="btn btn-primary nav-cta">Garanta seu exemplar</a>
+      <div class="header-actions">
+        <a href="#formatos" class="btn btn-primary nav-cta">Adquirir Exemplar</a>
+      </div>
     </div>
   </header>
 
-  <!-- hero / primeira dobra -->
-  <section class="hero" id="top">
-    <div class="container hero-grid">
-      <div class="hero-content fade-up">
-        <span class="author-tag">CLEVERSON BORGES</span>
-        <h1 class="hero-title">Suspiros</h1>
-        <p class="hero-subtitle">
-          118 suspiros em forma de poesia — sobre amor, perda, fé e recomeço.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#formatos" class="btn btn-lg btn-primary">Compre seu livro</a>
-          <a href="#sobre" class="btn btn-lg btn-outline">Conhecer a Obra</a>
-        </div>
-
-        <div class="trust-badges">
-          <div class="badge-item">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
-            <span>Acesso Imediato (PDF / ePub)</span>
+  <main>
+    <!-- Primeira Dobra / Hero Section -->
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-content fade-up">
+          <div class="author-tag">
+            <span class="tag-dot"></span>
+            <span>Cleverson Borges</span>
           </div>
-          <div class="badge-item">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-            <span>Compra 100% Segura</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- capa do livro, isolada do fundo -->
-      <div class="hero-media fade-up">
-        <div class="book-container">
-          <!-- ATENÇÃO: essa imagem precisa ser o PNG transparente (gerado no remove.bg), senão a sombra/glow fica estranha -->
-          <img src="./assets/suspiros-capa.png" alt="Capa do livro Suspiros, de Cleverson Borges" class="book-standalone" />
-        </div>
-      </div>
-    </div>
-
-    <a href="#sobre" class="scroll-indicator fade-up">
-      <span>role para abrir</span>
-      <span class="arrow">↓</span>
-    </a>
-  </section>
-
-  <!-- citação de abertura, pra dar um respiro antes do texto sobre o livro -->
-  <section class="quote-section fade-up">
-    <div class="container container-narrow">
-      <div class="quote-card">
-        <span class="quote-icon">“</span>
-        <p class="quote-text">
-          Moinho de versos movido a vento em noites de boemia<br />Vai vir o dia quando tudo que eu diga seja poesia
-        </p>
-        <cite class="quote-author">— Paulo Leminski</cite>
-      </div>
-    </div>
-  </section>
-
-  <!-- sobre o livro -->
-  <section class="about-section" id="sobre">
-    <div class="container">
-      <div class="section-header center fade-up">
-        <span class="section-tag">Sobre o livro</span>
-        <h2 class="section-title">Palavras que você já sentiu, mas nunca soube nomear.</h2>
-      </div>
-
-      <div class="about-card fade-up">
-        <p class="about-text">
-          <strong>Suspiros</strong> é uma coletânea de 118 poemas e reflexões que nascem do que há de mais simples e mais profundo em nós.
-        </p>
-        <p class="about-text">
-          Cleverson Borges transita entre o amor e a dor, a dúvida e a fé, os ciclos de morte e recomeço que atravessamos sem perceber — versos escritos com verdade, sobre o que significa amar, perder, duvidar de si mesmo e, ainda assim, seguir espalhando luz para quem está ao redor.
-        </p>
-      </div>
-
-      <!-- os 3 pilares/temas do livro -->
-      <div class="themes-grid">
-        <div class="theme-card fade-up" style="transition-delay: 0.1s;">
-          <div class="theme-number">01</div>
-          <h3>Amor & Dor</h3>
-          <p>A beleza crua do sentir e as marcas que moldam nossa história.</p>
-        </div>
-        <div class="theme-card fade-up" style="transition-delay: 0.2s;">
-          <div class="theme-number">02</div>
-          <h3>Dúvida & Fé</h3>
-          <p>O equilíbrio entre os questionamentos internos e a esperança diária.</p>
-        </div>
-        <div class="theme-card fade-up" style="transition-delay: 0.3s;">
-          <div class="theme-number">03</div>
-          <h3>Recomeço & Luz</h3>
-          <p>A força para renascer após os ciclos de encerramento e seguir adiante.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- trecho de amostra do livro, pra dar um gostinho antes de pedir pra comprar -->
-  <section class="excerpt-section fade-up" id="trecho">
-    <div class="container container-narrow">
-      <div class="poem-display">
-        <span class="poem-badge">Suspiro #01</span>
-        <div class="poem-body">
-          <p>
-            Versos escritos com verdade,<br />
-            sobre o que significa amar, perder,<br />
-            duvidar de si mesmo e,<br />
-            ainda assim,<br />
-            seguir espalhando luz.
+          <h1 class="hero-title">Poesia para os dias em que a alma pede pausa.</h1>
+          <p class="hero-subtitle">
+            Uma obra editorial refinada reunindo <strong>118 suspiros em forma de poema</strong> — breves encontros entre o amor, a perda, a reconstrução e a fé.
           </p>
-        </div>
-        <span class="poem-author">— Cleverson Borges</span>
-      </div>
-    </div>
-  </section>
 
-  <!-- parte de vendas: 3 formatos, com o do meio marcado como mais escolhido -->
-  <section class="pricing-section" id="formatos">
-    <div class="container">
-      <div class="section-header center fade-up">
-        <span class="section-tag">Escolha sua edição</span>
-        <h2 class="section-title">Formatos disponíveis para leitura</h2>
-      </div>
-
-      <div class="pricing-grid-3">
-        <!-- ebook: mais barato, entrega na hora -->
-        <div class="price-card-light fade-up" style="transition-delay: 0.1s;">
-          <h3 class="price-title-serif">Ebook</h3>
-          <div class="price-box-light">
-            <span class="currency">R\$</span>
-            <span class="amount-bold">19,90</span>
+          <div class="hero-actions">
+            <a href="#formatos" class="btn btn-lg btn-primary">
+              <span>Garantir Meu Exemplar</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#sobre" class="btn btn-lg btn-outline">Degustar a Obra</a>
           </div>
-          <p class="price-desc-light">
-            Versão digital em PDF, com sumário navegável. Acesso imediato por e-mail após a compra.
+
+          <div class="trust-badges">
+            <div class="badge-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              <span>Envio Immediato (PDF / ePub)</span>
+            </div>
+            <div class="badge-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Garantia de 7 Dias</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capa do Livro em 3D sutil -->
+        <div class="hero-media fade-up">
+          <div class="book-stage" id="bookStage">
+            <div class="book-glow"></div>
+            <img src="./assets/suspiros-capa.png" alt="Capa do livro Suspiros, de Cleverson Borges" class="book-standalone" />
+          </div>
+        </div>
+      </div>
+
+      <a href="#sobre" class="scroll-indicator" aria-label="Rolar para ver mais">
+        <span class="scroll-text">Explore a obra</span>
+        <span class="scroll-arrow">↓</span>
+      </a>
+    </section>
+
+    <!-- Citação Literária -->
+    <section class="quote-section fade-up">
+      <div class="container container-narrow">
+        <blockquote class="quote-card">
+          <span class="quote-mark">“</span>
+          <p class="quote-text">
+            Moinho de versos movido a vento em noites de boemia<br />
+            Vai vir o dia quando tudo que eu diga seja poesia
           </p>
-          <a href="https://pay.cakto.com.br/fqmkv2d_1077411" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block">Comprar ebook</a>
+          <cite class="quote-author">— Paulo Leminski</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- Sobre o Livro (Layout Editorial) -->
+    <section class="about-section" id="sobre">
+      <div class="container">
+        <div class="about-editorial-grid">
+          <div class="about-intro fade-up">
+            <span class="section-tag">A Obra</span>
+            <h2 class="section-title">Palavras que você já sentiu, mas nunca soube nomear.</h2>
+            <div class="editorial-line"></div>
+          </div>
+          
+          <div class="about-body fade-up">
+            <p class="lead-paragraph">
+              <strong>Suspiros</strong> é o resultado de anos de observação silenciosa sobre as marés da vida humana. Não é apenas um livro de poemas, mas um refúgio em forma de papel e tinta.
+            </p>
+            <p>
+              Cleverson Borges transita com sensibilidade entre o amor e a dor, a dúvida cotidiana e a fé inabalável. São versos escritos sem filtros artificiais, capturando os ciclos de encerramento e renascimento pelos quais todos nós atravessamos.
+            </p>
+          </div>
         </div>
 
-        <!-- capa simples: o card em destaque (borda + selo "mais escolhido") -->
-        <div class="price-card-light featured-light fade-up" style="transition-delay: 0.2s;">
-          <div class="popular-badge">MAIS ESCOLHIDO</div>
-          <h3 class="price-title-serif">Capa Simples</h3>
-          <div class="price-box-light">
-            <span class="currency">R\$</span>
-            <span class="amount-bold">39,90</span>
-            <span class="shipping-tag">+ frete</span>
-          </div>
-          <p class="price-desc-light">
-            Edição física em brochura: leve e prática, ideal pra levar pra qualquer lugar.
-          </p>
-          <a href="https://pay.cakto.com.br/ut442j5_1077436" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block">Comprar capa simples</a>
-        </div>
+        <!-- Pilares / Temas (Layout Orgânico Assimétrico) -->
+        <div class="themes-wrapper" id="pilares">
+          <article class="theme-block fade-up">
+            <div class="theme-header">
+              <span class="theme-index">01</span>
+              <h3 class="theme-title">Amor &amp; Dor</h3>
+            </div>
+            <p class="theme-desc">A beleza crua do sentir e as cicatrizes invisíveis que moldam quem nos tornamos.</p>
+          </article>
 
-        <!-- capa dura: edição especial, mais cara -->
-        <div class="price-card-light fade-up" style="transition-delay: 0.3s;">
-          <h3 class="price-title-serif">Capa Dura</h3>
-          <div class="price-box-light">
-            <span class="currency">R\$</span>
-            <span class="amount-bold">59,90</span>
-            <span class="shipping-tag">+ frete</span>
-          </div>
-          <p class="price-desc-light">
-            Edição especial, com acabamento reforçado. Ideal pra presentear ou guardar por muito tempo.
-          </p>
-          <a href="https://pay.cakto.com.br/royrdep_1077453" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block">Comprar capa dura</a>
+          <article class="theme-block fade-up">
+            <div class="theme-header">
+              <span class="theme-index">02</span>
+              <h3 class="theme-title">Dúvida &amp; Fé</h3>
+            </div>
+            <p class="theme-desc">O diálogo sutil entre a incerteza do amanhã e a esperança que nos mantém de pé.</p>
+          </article>
+
+          <article class="theme-block fade-up">
+            <div class="theme-header">
+              <span class="theme-index">03</span>
+              <h3 class="theme-title">Recomeço &amp; Luz</h3>
+            </div>
+            <p class="theme-desc">A coragem de recolher os pedaços após as tempestades e recomeçar a florescer.</p>
+          </article>
         </div>
       </div>
-    </div>
-  </section>
-    </div>
-  </section>
+    </section>
 
-  <!-- perguntas frequentes, accordion que abre/fecha via JS -->
-  <section class="faq-section" id="faq">
-    <div class="container container-narrow fade-up">
-      <div class="section-header center">
-        <span class="section-tag">Dúvidas frequentes</span>
-        <h2 class="section-title">Tudo o que você precisa saber</h2>
-      </div>
-
-      <div class="faq-accordion">
-        <div class="faq-item">
-          <button class="faq-trigger">Como recebo meu e-book após a compra? <span class="icon">+</span></button>
-          <div class="faq-content">
-            <p>Assim que o pagamento for confirmado, você receberá um link de download direto no seu e-mail para baixar o e-book nos formatos PDF, ePub e MOBI.</p>
+    <!-- Degustação de Poema (Ambiente Escuro Noturno) -->
+    <section class="excerpt-section fade-up" id="trecho">
+      <div class="container container-narrow">
+        <div class="poem-stage">
+          <div class="poem-header">
+            <span class="poem-badge">Amostra • Suspiro #01</span>
           </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-trigger">Posso ler no Kindle ou aplicativo de leitura? <span class="icon">+</span></button>
-          <div class="faq-content">
-            <p>Sim! O arquivo enviado é compatível com qualquer dispositivo, incluindo Kindle, iPad, Kobo, Android e iPhones.</p>
+          <div class="poem-body">
+            <p>
+              Versos escritos com verdade,<br />
+              sobre o que significa amar, perder,<br />
+              duvidar de si mesmo e,<br />
+              ainda assim,<br />
+              seguir espalhando luz.
+            </p>
           </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-trigger">E se eu não gostar do conteúdo? <span class="icon">+</span></button>
-          <div class="faq-content">
-            <p>Você possui 7 dias de garantia incondicional. Se por qualquer motivo os versos não tocarem seu coração, basta solicitar o reembolso que devolveremos 100% do seu investimento.</p>
-          </div>
+          <footer class="poem-footer">
+            <span class="poem-author">— Cleverson Borges</span>
+          </footer>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- barrinha fixa que aparece depois que o usuário passa da hero, só pra lembrar de comprar -->
-  <div class="sticky-bar" id="stickyBar">
+    <!-- Tabela / Cards de Opções de Compra -->
+    <section class="pricing-section" id="formatos">
+      <div class="container">
+        <div class="section-header center fade-up">
+          <span class="section-tag">Formatos de Leitura</span>
+          <h2 class="section-title">Escolha a sua experiência com Suspiros</h2>
+          <p class="section-subtitle">Disponível em versão digital para leitura imediata ou edições físicas impressas com acabamento nobre.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- E-book -->
+          <article class="price-card fade-up">
+            <div class="price-header">
+              <span class="format-badge">Digital</span>
+              <h3 class="price-title">E-book</h3>
+              <p class="price-subtitle">Ideal para ler no Kindle, celular ou tablet.</p>
+            </div>
+            <div class="price-value-container">
+              <span class="currency">R$</span>
+              <span class="amount">19</span>
+              <span class="cents">,90</span>
+            </div>
+            <ul class="price-features">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Arquivos PDF, ePub e MOBI</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Sumário interativo e pesquisável</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Entrega imediata via e-mail</span>
+              </li>
+            </ul>
+            <a href="https://pay.cakto.com.br/fqmkv2d_1077411" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block">Adquirir E-book</a>
+          </article>
+
+          <!-- Capa Simples (Destaque) -->
+          <article class="price-card featured fade-up">
+            <div class="popular-ribbon">Edição Mais Escolhida</div>
+            <div class="price-header">
+              <span class="format-badge highlight">Físico • Brochura</span>
+              <h3 class="price-title">Capa Simples</h3>
+              <p class="price-subtitle">Brochura clássica com toque suave e papel de alta gramatura.</p>
+            </div>
+            <div class="price-value-container">
+              <span class="currency">R$</span>
+              <span class="amount">39</span>
+              <span class="cents">,90</span>
+              <span class="shipping">+ frete</span>
+            </div>
+            <ul class="price-features">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Livro físico impresso em alta qualidade</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Marcador de página exclusivo incluso</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Envio para todo o Brasil</span>
+              </li>
+            </ul>
+            <a href="https://pay.cakto.com.br/ut442j5_1077436" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block">Comprar Capa Simples</a>
+          </article>
+
+          <!-- Capa Dura -->
+          <article class="price-card fade-up">
+            <div class="price-header">
+              <span class="format-badge">Físico • Colecionador</span>
+              <h3 class="price-title">Capa Dura</h3>
+              <p class="price-subtitle">Acabamento premium reforçado para guardar ou presenciar.</p>
+            </div>
+            <div class="price-value-container">
+              <span class="currency">R$</span>
+              <span class="amount">59</span>
+              <span class="cents">,90</span>
+              <span class="shipping">+ frete</span>
+            </div>
+            <ul class="price-features">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Edição luxo com capa dura rígida</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Marcador especial + Cartão de colecionador</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Excelente opção para presente</span>
+              </li>
+            </ul>
+            <a href="https://pay.cakto.com.br/royrdep_1077453" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block">Comprar Capa Dura</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section class="faq-section" id="faq">
+      <div class="container container-narrow fade-up">
+        <div class="section-header center">
+          <span class="section-tag">Perguntas Frequentes</span>
+          <h2 class="section-title">Respostas para suas dúvidas</h2>
+        </div>
+
+        <div class="faq-accordion" id="faqAccordion">
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-1" id="faq-btn-1">
+              <span>Como recebo a versão digital (E-book) após a compra?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-content" id="faq-ans-1" role="region" aria-labelledby="faq-btn-1" hidden>
+              <div class="faq-inner">
+                <p>Assim que o pagamento for confirmado pela plataforma, você receberá instantaneamente um e-mail com os links seguros para baixar o e-book nos formatos PDF, ePub e MOBI.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-2" id="faq-btn-2">
+              <span>É possível ler no Kindle, Kobo ou aplicativos de celular?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-content" id="faq-ans-2" role="region" aria-labelledby="faq-btn-2" hidden>
+              <div class="faq-inner">
+                <p>Com certeza. Entregamos os formatos padrão da indústria (ePub e MOBI/PDF), tornando a leitura perfeita em e-readers como Kindle e Kobo, além de smartphones e tablets (iOS e Android).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-3" id="faq-btn-3">
+              <span>Qual o prazo de envio para as edições físicas?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-content" id="faq-ans-3" role="region" aria-labelledby="faq-btn-3" hidden>
+              <div class="faq-inner">
+                <p>As edições físicas são despachadas em até 48 horas úteis após a confirmação do pedido. O prazo final depende do CEP informado no checkout.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-4" id="faq-btn-4">
+              <span>Existe garantia de satisfação?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-content" id="faq-ans-4" role="region" aria-labelledby="faq-btn-4" hidden>
+              <div class="faq-inner">
+                <p>Sim. Confiamos na sensibilidade desta obra. Oferecemos 7 dias de garantia incondicional. Se por qualquer motivo os versos não tocarem você, basta solicitar o reembolso com um único clique.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sticky Bar Bottom (Flutuante ao Rolar) -->
+  <aside class="sticky-bar" id="stickyBar" aria-label="Barra de compra rápida">
     <div class="container sticky-container">
       <div class="sticky-info">
-        <strong>Suspiros</strong> — Cleverson Borges (118 Poesias)
+        <span class="sticky-title">Suspiros</span>
+        <span class="sticky-author">por Cleverson Borges (118 Poesias)</span>
       </div>
-      <a href="#formatos" class="btn btn-primary btn-sm">Garantir meu exemplar</a>
+      <a href="#formatos" class="btn btn-primary btn-sm">Garantir Exemplar</a>
     </div>
-  </div>
+  </aside>
 
-  <!-- rodapé -->
+  <!-- Rodapé -->
   <footer class="footer">
     <div class="container footer-content fade-up">
-      <p class="footer-brand">Suspiros</p>
+      <span class="footer-logo">Suspiros</span>
       <p class="footer-author">Cleverson Borges © 2026. Todos os direitos reservados.</p>
-      <p class="footer-legal">“Vai vir o dia quando tudo que eu diga seja poesia”</p>
+      <p class="footer-quote">“Vai vir o dia quando tudo que eu diga seja poesia”</p>
     </div>
   </footer>
 

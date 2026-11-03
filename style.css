@@ -1,23 +1,44 @@
-/* reset básico + variáveis de cor/fonte — paleta tirada da própria capa (tons de magenta/violeta) */
+/* ==========================================================================
+   DESIGN SYSTEM & VARIÁVEIS (EDITORIAL EDITON)
+   ========================================================================== */
 :root {
-  --bg-main: #FBF8FA;         /* fundo geral, lilás bem clarinho */
-  --bg-card: #F2EAEE;         /* fundo dos cards/seções alternadas */
-  --bg-dark: #1E1724;         /* violeta escuro, usado no trecho de poesia e rodapé */
-  --text-main: #251D28;       /* cor principal do texto */
-  --text-muted: #6E5F70;      /* texto secundário, mais apagado */
-  --primary: #C03E75;         /* magenta, cor de destaque/CTA */
-  --primary-hover: #9E2D5D;   /* magenta mais escuro pro hover */
-  --accent-purple: #8B5A96;   /* roxo intermediário, uso pontual */
-  --border-light: #E4D6DF;    /* borda padrão */
+  /* Paleta Inspirada em Papel, Tinta e Tons Ameixa Profundos */
+  --bg-main: #FAF7F9;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #F3ECF1;
+  --bg-dark: #18121E;
   
+  --text-primary: #1C1521;
+  --text-secondary: #5A4E5E;
+  --text-muted: #8A7B8E;
+  --text-on-dark: #F5EEF3;
+  
+  --brand-primary: #B33468;
+  --brand-hover: #912451;
+  --brand-light: rgba(179, 52, 104, 0.08);
+  --brand-border: rgba(179, 52, 104, 0.2);
+  --accent-plum: #6B3A72;
+  
+  --border-subtle: #E8DEE5;
+  --border-strong: #D5C4CF;
+  
+  /* Tipografia */
   --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-
-  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  --shadow-soft: 0 10px 30px rgba(37, 29, 40, 0.05);
-  --shadow-hover: 0 20px 40px rgba(192, 62, 117, 0.15);
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Sombras & Profundidade */
+  --shadow-sm: 0 2px 8px rgba(28, 21, 33, 0.04);
+  --shadow-md: 0 12px 32px rgba(28, 21, 33, 0.06);
+  --shadow-lg: 0 24px 48px rgba(28, 21, 33, 0.1);
+  --shadow-brand: 0 12px 28px rgba(179, 52, 104, 0.25);
+  
+  /* Transições Fluidas */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.2s var(--ease-out-expo);
+  --transition-normal: 0.4s var(--ease-out-expo);
 }
 
+/* Reset Global */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -26,20 +47,29 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-main);
-  color: var(--text-main);
-  line-height: 1.6;
-  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
+/* Acessibilidade - Foco Visível */
+:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 4px;
+}
+
+/* Layout Containers */
 .container {
   width: 90%;
-  max-width: 1140px;
+  max-width: 1160px;
   margin: 0 auto;
 }
 
@@ -47,11 +77,11 @@ body {
   max-width: 760px;
 }
 
-/* animação de entrada usada em quase toda seção (opacidade + sobe um pouco) */
+/* Animação Fade Up */
 .fade-up {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
   will-change: opacity, transform;
 }
 
@@ -60,277 +90,284 @@ body {
   transform: translateY(0);
 }
 
-/* partículas flutuantes (tipo sementes de dente-de-leão) que sobem a tela */
+/* ==========================================================================
+   PARTÍCULAS DENTE-DE-LEÃO (CSS FLUTUANTE LEVE)
+   ========================================================================== */
 #dandelion-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   pointer-events: none;
-  z-index: 99999;
+  z-index: 1;
   overflow: hidden;
 }
 
-.dandelion-seed {
+.dandelion-particle {
   position: absolute;
-  width: 6px;
-  height: 6px;
-  background-color: rgba(192, 62, 117, 0.6); 
+  width: 4px;
+  height: 4px;
+  background-color: var(--brand-primary);
   border-radius: 50%;
-  box-shadow: 0 0 12px rgba(192, 62, 117, 0.8);
   opacity: 0;
-  animation: floatSeed linear forwards;
+  box-shadow: 0 0 8px var(--brand-primary);
+  animation: floatParticle linear forwards;
 }
 
-.dandelion-seed::after {
-  content: '';
-  position: absolute;
-  top: -16px;
-  left: 2px;
-  width: 1.5px;
-  height: 18px;
-  background-color: rgba(192, 62, 117, 0.4);
-  transform: rotate(15deg);
+@keyframes floatParticle {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  20% {
+    opacity: 0.4;
+  }
+  80% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(120px, -80vh) rotate(180deg);
+  }
 }
 
-@keyframes floatSeed {
-  0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0; }
-  15% { opacity: 1; }
-  85% { opacity: 1; }
-  100% { transform: translate(300px, -100vh) rotate(360deg) scale(1.8); opacity: 0; }
-}
-
-/* header fixo, encolhe um pouco quando rola a página (classe .scrolled via JS) */
+/* ==========================================================================
+   CABEÇALHO / HEADER
+   ========================================================================== */
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  background: rgba(251, 248, 250, 0.7);
-  backdrop-filter: blur(5px);
+  left: 0;
+  right: 0;
   z-index: 100;
-  border-bottom: 1px solid transparent;
   padding: 1.5rem 0;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: padding var(--transition-normal), background-color var(--transition-normal), border-color var(--transition-normal);
 }
 
 .header.scrolled {
-  background: rgba(251, 248, 250, 0.95);
-  backdrop-filter: blur(15px);
-  padding: 0.7rem 0;
-  border-bottom: 1px solid var(--border-light);
-  box-shadow: 0 10px 30px rgba(37, 29, 40, 0.04);
+  padding: 0.85rem 0;
+  background: rgba(250, 247, 249, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
 }
 
 .header-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .brand-logo {
   font-family: var(--font-serif);
-  font-size: 1.8rem;
+  font-size: 1.85rem;
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--text-primary);
   text-decoration: none;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.02em;
 }
 
 .nav-menu {
   display: flex;
-  gap: 2.5rem;
+  gap: 2.25rem;
 }
 
 .nav-menu a {
   text-decoration: none;
-  color: var(--text-muted);
+  color: var(--text-secondary);
+  font-size: 0.925rem;
   font-weight: 500;
+  transition: color var(--transition-fast);
   position: relative;
-  transition: var(--transition);
-  display: inline-block;
 }
 
 .nav-menu a::after {
   content: '';
   position: absolute;
-  width: 0%;
-  height: 1.5px;
   bottom: -4px;
-  left: 50%;
-  background-color: var(--primary);
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-  transform: translateX(-50%);
-  opacity: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background-color: var(--brand-primary);
+  transition: width var(--transition-fast);
 }
 
 .nav-menu a:hover {
-  color: var(--primary);
-  transform: translateY(-3px);
-  letter-spacing: 0.5px;
-  filter: drop-shadow(0 4px 6px rgba(192, 62, 117, 0.15));
+  color: var(--brand-primary);
 }
 
 .nav-menu a:hover::after {
   width: 100%;
-  opacity: 1;
 }
 
-/* botões — padrão, outline e variações de tamanho */
+/* ==========================================================================
+   BOTÕES & COMPONENTES DE AÇÃO
+   ========================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
+  gap: 0.6rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: 99px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
-  transition: var(--transition);
   cursor: pointer;
-  border: none;
-  font-size: 0.95rem;
+  border: 1px solid transparent;
+  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .btn-primary {
-  background-color: var(--primary);
+  background-color: var(--brand-primary);
   color: #FFFFFF;
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(192, 62, 117, 0.35);
+  background-color: var(--brand-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-brand);
 }
 
 .btn-outline {
   background-color: transparent;
-  color: var(--text-main);
-  border: 1px solid var(--text-main);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
 }
 
 .btn-outline:hover {
-  background-color: var(--text-main);
-  color: #FFFFFF;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(37, 29, 40, 0.15);
+  background-color: var(--bg-surface);
+  border-color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-lg {
-  padding: 1rem 2rem;
+  padding: 1rem 2.2rem;
   font-size: 1.05rem;
+}
+
+.btn-sm {
+  padding: 0.55rem 1.25rem;
+  font-size: 0.875rem;
 }
 
 .btn-block {
   width: 100%;
 }
 
-.btn-sm {
-  padding: 0.5rem 1.25rem;
-  font-size: 0.875rem;
-}
-
-/* hero — tem um gradiente radial no fundo pra dar aquele brilho suave */
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
 .hero {
-  padding: 4rem 0 3rem 0;
-  position: relative;
-  min-height: 85vh;
+  padding: 10rem 0 4rem 0;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
   background: 
-    radial-gradient(circle at 75% 45%, rgba(192, 62, 117, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 20% 30%, rgba(139, 90, 150, 0.08) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 30%, rgba(179, 52, 104, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 70%, rgba(107, 58, 114, 0.05) 0%, transparent 50%),
     var(--bg-main);
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 3rem;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 4rem;
   align-items: center;
 }
 
 .author-tag {
   display: inline-flex;
   align-items: center;
-  font-size: 0.78rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--primary);
+  gap: 0.5rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  background: rgba(192, 62, 117, 0.08);
-  padding: 0.35rem 1rem;
-  border-radius: 30px;
-  border: 1px solid rgba(192, 62, 117, 0.18);
-  backdrop-filter: blur(4px);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--brand-primary);
+  background-color: var(--brand-light);
+  border: 1px solid var(--brand-border);
+  padding: 0.4rem 1rem;
+  border-radius: 99px;
+  margin-bottom: 1.5rem;
+}
+
+.tag-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--brand-primary);
+  border-radius: 50%;
 }
 
 .hero-title {
   font-family: var(--font-serif);
-  font-size: clamp(3rem, 8vw, 5.5rem);
-  line-height: 1.1;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  color: var(--text-main);
+  font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
-  color: var(--text-muted);
-  margin-bottom: 2rem;
-  max-width: 520px;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 540px;
+  margin-bottom: 2.25rem;
 }
 
 .hero-actions {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
 .trust-badges {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1.5rem;
 }
 
 .badge-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+  gap: 0.6rem;
+  font-size: 0.875rem;
   color: var(--text-muted);
 }
 
-.badge-item stroke {
-  color: var(--primary);
+.badge-item svg {
+  color: var(--brand-primary);
 }
 
-/* capa do livro com um "glow" atrás dela (pseudo-elemento ::before) + leve rotação no hover */
+/* Palco da Capa do Livro */
 .hero-media {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.book-container {
-  display: inline-block;
+.book-stage {
   position: relative;
-  transition: var(--transition);
+  perspective: 1000px;
 }
 
-.book-container::before {
-  content: '';
+.book-glow {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -45%);
-  width: 90%;
-  height: 90%;
-  background: radial-gradient(circle, rgba(192, 62, 117, 0.35) 0%, rgba(139, 90, 150, 0.15) 50%, transparent 70%);
-  filter: blur(45px);
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(179, 52, 104, 0.25) 0%, rgba(107, 58, 114, 0.1) 60%, transparent 80%);
+  filter: blur(40px);
   z-index: 0;
-  border-radius: 50%;
   pointer-events: none;
-  transition: var(--transition);
 }
 
 .book-standalone {
@@ -340,382 +377,475 @@ body {
   max-width: 320px;
   height: auto;
   display: block;
-  filter: drop-shadow(-15px 20px 30px rgba(30, 23, 36, 0.35)); 
-  transition: var(--transition);
+  filter: drop-shadow(-12px 18px 24px rgba(24, 18, 30, 0.25));
+  transition: transform 0.3s ease-out, filter 0.3s ease-out;
+  transform-style: preserve-3d;
 }
 
-.book-container:hover .book-standalone {
-  transform: translateY(-10px) rotate(-1.5deg);
-  filter: drop-shadow(-20px 30px 40px rgba(30, 23, 36, 0.45));
-}
-
-.book-container:hover::before {
-  transform: translate(-50%, -50%) scale(1.15);
-  background: radial-gradient(circle, rgba(192, 62, 117, 0.45) 0%, rgba(139, 90, 150, 0.2) 50%, transparent 70%);
-}
-
+/* Indicador de rolagem */
 .scroll-indicator {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
   gap: 0.3rem;
+  margin-top: 4rem;
+  align-self: center;
   text-decoration: none;
   color: var(--text-muted);
-  font-size: 0.85rem;
-  margin-top: 3rem;
-  animation: bounce 2s infinite;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-@keyframes bounce {
+.scroll-arrow {
+  animation: bounceArrow 2s infinite;
+}
+
+@keyframes bounceArrow {
   0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-6px); }
-  60% { transform: translateY(-3px); }
+  40% { transform: translateY(-5px); }
+  60% { transform: translateY(-2px); }
 }
 
-/* bloco da citação do Leminski, logo abaixo da hero */
+/* ==========================================================================
+   CITAÇÃO LITERÁRIA (LEMINSKI)
+   ========================================================================== */
 .quote-section {
-  padding: 4rem 0;
-  background-color: var(--bg-card);
-  border-top: 1px solid var(--border-light);
-  border-bottom: 1px solid var(--border-light);
+  padding: 5rem 0;
+  background-color: var(--bg-surface);
+  border-y: 1px solid var(--border-subtle);
 }
 
 .quote-card {
   text-align: center;
   position: relative;
-  transition: var(--transition);
+  padding: 1rem 0;
 }
 
-.quote-card:hover {
-  transform: scale(1.02);
-}
-
-.quote-icon {
+.quote-mark {
   font-family: var(--font-serif);
-  font-size: 4rem;
-  line-height: 1;
-  color: var(--primary);
+  font-size: 5rem;
+  line-height: 0.5;
+  color: var(--brand-primary);
+  opacity: 0.3;
   display: block;
-  margin-bottom: -1rem;
+  margin-bottom: 0.5rem;
 }
 
 .quote-text {
   font-family: var(--font-serif);
-  font-size: 1.6rem;
+  font-size: clamp(1.4rem, 3vw, 2rem);
   font-style: italic;
-  color: var(--text-main);
-  margin-bottom: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
 }
 
 .quote-author {
-  font-size: 0.95rem;
+  font-size: 0.925rem;
   font-weight: 600;
   color: var(--text-muted);
   font-style: normal;
+  letter-spacing: 0.05em;
 }
 
-/* seção "sobre o livro" + os 3 cards de tema */
+/* ==========================================================================
+   SOBRE O LIVRO & PILARES
+   ========================================================================== */
 .about-section {
-  padding: 6rem 0;
+  padding: 7rem 0;
+}
+
+.about-editorial-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 4rem;
+  align-items: start;
+  margin-bottom: 5rem;
 }
 
 .section-tag {
-  font-size: 0.85rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--primary);
+  font-size: 0.8rem;
   font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .section-title {
   font-family: var(--font-serif);
-  font-size: 2.5rem;
-  line-height: 1.2;
-  margin-bottom: 2rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
-.center {
-  text-align: center;
+.editorial-line {
+  width: 60px;
+  height: 2px;
+  background-color: var(--brand-primary);
+  margin-top: 1.5rem;
 }
 
-.about-card {
-  background: #FFFFFF;
-  padding: 2.5rem;
-  border-radius: 16px;
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-soft);
-  margin-bottom: 3rem;
-  transition: var(--transition);
+.lead-paragraph {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
 }
 
-.about-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
-}
-
-.about-text {
-  font-size: 1.15rem;
+.about-body p {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
   line-height: 1.8;
-  color: var(--text-main);
-  margin-bottom: 1.2rem;
 }
 
-.themes-grid {
+/* Temas / Pilares */
+.themes-wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
-.theme-card {
-  background-color: var(--bg-card);
-  padding: 2rem;
-  border-radius: 12px;
-  border: 1px solid var(--border-light);
-  transition: var(--transition);
-}
-
-.theme-card:hover {
-  background-color: #FFFFFF;
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-hover);
-}
-
-.theme-number {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  color: var(--primary);
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.theme-card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.theme-card p {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-}
-
-/* trecho de poesia em destaque, fundo escuro pra contrastar com o resto da página */
-.excerpt-section {
-  padding: 5rem 0;
-  background-color: var(--bg-dark);
-  color: #FBF8FA;
-}
-
-.poem-display {
-  text-align: center;
-  padding: 3rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.theme-block {
+  background: var(--bg-surface);
+  padding: 2.5rem 2rem;
   border-radius: 16px;
-  background: radial-gradient(circle at center, rgba(192, 62, 117, 0.15) 0%, rgba(30, 23, 36, 0) 70%);
-  transition: var(--transition);
+  border: 1px solid var(--border-subtle);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
 }
 
-.poem-display:hover {
-  border-color: rgba(192, 62, 117, 0.4);
-  box-shadow: 0 0 30px rgba(192, 62, 117, 0.1);
+.theme-block:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--brand-border);
+}
+
+.theme-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.theme-index {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--brand-primary);
+}
+
+.theme-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.theme-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   EXCERPT / AMOSTRA DE POEMA (DARK MODE NOTURNO)
+   ========================================================================== */
+.excerpt-section {
+  padding: 7rem 0;
+  background-color: var(--bg-dark);
+  color: var(--text-on-dark);
+}
+
+.poem-stage {
+  text-align: center;
+  padding: 4rem 3rem;
+  border-radius: 24px;
+  background: radial-gradient(circle at center, rgba(179, 52, 104, 0.12) 0%, transparent 70%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
 .poem-badge {
   font-size: 0.8rem;
-  letter-spacing: 2px;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--accent-purple);
-  margin-bottom: 2rem;
+  color: var(--brand-primary);
+  font-weight: 600;
   display: block;
+  margin-bottom: 2.5rem;
 }
 
 .poem-body {
   font-family: var(--font-serif);
-  font-size: 1.8rem;
-  line-height: 1.6;
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  line-height: 1.7;
   font-style: italic;
-  margin-bottom: 2rem;
+  font-weight: 400;
+  margin-bottom: 2.5rem;
 }
 
 .poem-author {
-  font-size: 0.9rem;
-  color: var(--primary);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
 }
 
-/* os 3 cards de preço — o do meio (featured-light) tem borda mais grossa + selo */
+/* ==========================================================================
+   FORMATOS E PREÇOS
+   ========================================================================== */
 .pricing-section {
-  padding: 6rem 0;
+  padding: 7rem 0;
 }
 
-.pricing-grid-3 {
+.section-header {
+  margin-bottom: 4rem;
+}
+
+.section-header.center {
+  text-align: center;
+}
+
+.section-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0.75rem auto 0 auto;
+}
+
+.pricing-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   align-items: stretch;
-  margin-top: 3rem;
 }
 
-.price-card-light {
-  background: #FFFFFF;
-  border: 1px solid var(--border-light);
+.price-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 20px;
-  padding: 2.8rem 2rem;
-  position: relative;
+  padding: 3rem 2rem 2.5rem 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  box-shadow: var(--shadow-soft);
-  transition: var(--transition);
+  position: relative;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
 }
 
-.price-card-light:hover {
+.price-card:hover {
   transform: translateY(-8px);
-  border-color: var(--primary);
-  box-shadow: 0 15px 35px rgba(192, 62, 117, 0.15);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
 }
 
-.price-card-light.featured-light {
-  border: 2px solid var(--primary);
+.price-card.featured {
+  border: 2px solid var(--brand-primary);
+  box-shadow: var(--shadow-md);
 }
 
-.price-card-light.featured-light:hover {
+.price-card.featured:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(192, 62, 117, 0.22);
+  box-shadow: 0 20px 40px rgba(179, 52, 104, 0.18);
 }
 
-.popular-badge {
+.popular-ribbon {
   position: absolute;
-  top: -15px;
+  top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--primary);
+  background-color: var(--brand-primary);
   color: #FFFFFF;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0.35rem 1.2rem;
-  border-radius: 20px;
+  padding: 0.3rem 1.25rem;
+  border-radius: 99px;
   white-space: nowrap;
 }
 
-.price-title-serif {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 2.2rem;
-  font-weight: 600;
-  color: var(--text-main);
-  margin-bottom: 1.2rem;
+.format-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
-.price-box-light {
+.format-badge.highlight {
+  color: var(--brand-primary);
+}
+
+.price-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.price-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  min-height: 42px;
+  margin-bottom: 1.5rem;
+}
+
+.price-value-container {
   display: flex;
   align-items: baseline;
-  gap: 0.3rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1.5rem;
 }
 
 .currency {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: var(--text-main);
+  color: var(--text-primary);
+  margin-right: 0.2rem;
 }
 
-.amount-bold {
-  font-size: 2.4rem;
-  font-weight: 800;
-  color: var(--text-main);
-  letter-spacing: -0.5px;
+.amount {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
 }
 
-.shipping-tag {
-  font-size: 0.88rem;
+.cents {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.shipping {
+  font-size: 0.85rem;
   color: var(--text-muted);
+  margin-left: 0.5rem;
 }
 
-.price-desc-light {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 2.2rem;
+.price-features {
+  list-style: none;
+  margin-bottom: 2.5rem;
   flex-grow: 1;
 }
 
-/* accordion do FAQ — o show/hide do conteúdo é feito via classe .active (JS) */
+.price-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.925rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.85rem;
+}
+
+.price-features li svg {
+  color: var(--brand-primary);
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   FAQ ACCORDION (ACESSIBILIDADE & ANIMAÇÃO SUAVE)
+   ========================================================================== */
 .faq-section {
-  padding: 5rem 0;
-  background-color: var(--bg-card);
+  padding: 6rem 0;
+  background-color: var(--bg-subtle);
 }
 
 .faq-accordion {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 3rem;
 }
 
 .faq-item {
-  background: #FFFFFF;
-  border-radius: 8px;
+  background: var(--bg-surface);
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
   overflow: hidden;
-  border: 1px solid var(--border-light);
-  transition: var(--transition);
+  transition: border-color var(--transition-fast);
 }
 
 .faq-item:hover {
-  border-color: var(--primary);
+  border-color: var(--border-strong);
 }
 
 .faq-trigger {
   width: 100%;
-  padding: 1.2rem 1.5rem;
+  padding: 1.4rem 1.75rem;
   text-align: left;
   background: none;
   border: none;
-  font-weight: 600;
+  font-family: var(--font-sans);
   font-size: 1.05rem;
-  color: var(--text-main);
+  font-weight: 600;
+  color: var(--text-primary);
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  gap: 1rem;
+}
+
+.faq-icon {
+  color: var(--brand-primary);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.faq-trigger[aria-expanded="true"] .faq-icon {
+  transform: rotate(180deg);
 }
 
 .faq-content {
-  padding: 0 1.5rem 1.2rem 1.5rem;
-  display: none;
-  color: var(--text-muted);
-  font-size: 0.95rem;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s var(--ease-out-expo);
 }
 
-.faq-item.active .faq-content {
-  display: block;
-  animation: fadeIn 0.4s ease-out;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+.faq-content[hidden] {
+  display: grid; /* Mantém acessível para animação CSS */
 }
 
-.faq-item.active .icon {
-  transform: rotate(45deg);
-  color: var(--primary);
+.faq-trigger[aria-expanded="true"] + .faq-content {
+  grid-template-rows: 1fr;
 }
 
-/* barra fixa de CTA (aparece ao rolar) + rodapé */
+.faq-inner {
+  overflow: hidden;
+}
+
+.faq-inner p {
+  padding: 0 1.75rem 1.4rem 1.75rem;
+  color: var(--text-secondary);
+  font-size: 0.975rem;
+  line-height: 1.7;
+}
+
+/* ==========================================================================
+   STICKY BAR & FOOTER
+   ========================================================================== */
 .sticky-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: #FFFFFF;
-  border-top: 1px solid var(--border-light);
-  padding: 0.8rem 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border-subtle);
+  padding: 0.85rem 0;
+  z-index: 90;
   transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 99;
-  box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+  transition: transform 0.4s var(--ease-out-expo);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.05);
 }
 
 .sticky-bar.visible {
@@ -724,53 +854,93 @@ body {
 
 .sticky-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+}
+
+.sticky-info {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.sticky-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.sticky-author {
+  font-size: 0.875rem;
+  color: var(--text-muted);
 }
 
 .footer {
-  padding: 3rem 0;
+  padding: 4rem 0;
   background-color: var(--bg-dark);
-  color: #FBF8FA;
+  color: var(--text-on-dark);
   text-align: center;
-  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-.footer-brand {
+.footer-logo {
   font-family: var(--font-serif);
-  font-size: 1.8rem;
+  font-size: 2rem;
+  font-weight: 700;
+  display: block;
   margin-bottom: 0.5rem;
 }
 
 .footer-author {
-  font-size: 0.85rem;
-  opacity: 0.7;
-  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
 }
 
-.footer-legal {
+.footer-quote {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 0.9rem;
-  color: var(--primary);
+  font-size: 1rem;
+  color: var(--brand-primary);
 }
 
-/* ajustes de responsividade — tablet e depois celular */
-@media (max-width: 992px) {
+/* ==========================================================================
+   RESPONSIVIDADE E ADAPTAÇÕES DE TELA
+   ========================================================================== */
+@media (max-width: 1024px) {
   .hero-grid {
-    gap: 2rem;
-  }
-  .book-standalone {
-    max-width: 270px;
-  }
-  .section-title {
-    font-size: 2.2rem;
-  }
-  .pricing-grid-3 {
     grid-template-columns: 1fr;
-    max-width: 460px;
+    text-align: center;
+    gap: 3rem;
+  }
+  
+  .hero-subtitle {
     margin-left: auto;
     margin-right: auto;
+  }
+  
+  .hero-actions {
+    justify-content: center;
+  }
+  
+  .trust-badges {
+    justify-content: center;
+  }
+
+  .about-editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .themes-wrapper, .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .price-subtitle {
+    min-height: auto;
   }
 }
 
@@ -778,68 +948,39 @@ body {
   .nav-menu {
     display: none;
   }
-  .header-container {
-    padding: 0 0.5rem;
-  }
-  .nav-cta {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
-  }
+
   .hero {
-    padding: 2rem 0;
-    min-height: auto;
+    padding-top: 7.5rem;
   }
-  .hero-grid {
-    grid-template-columns: 1fr; 
-    text-align: center;
-    gap: 2.5rem;
-  }
-  .hero-subtitle {
-    margin: 0 auto 1.5rem auto;
-    font-size: 1.1rem;
-  }
+
   .hero-actions {
     flex-direction: column;
-    align-items: center;
-    gap: 1rem;
     width: 100%;
   }
+
   .hero-actions .btn {
     width: 100%;
-    max-width: 320px;
   }
+
   .trust-badges {
     flex-direction: column;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.75rem;
   }
-  .quote-section, .about-section, .pricing-section, .faq-section, .excerpt-section {
-    padding: 4rem 0;
-  }
-  .section-title {
-    font-size: 1.9rem;
-    line-height: 1.25;
-  }
-  .quote-text {
-    font-size: 1.35rem;
-  }
-  .poem-body {
-    font-size: 1.5rem;
-  }
-  .poem-display {
-    padding: 2rem 1.5rem;
-  }
-  .about-card {
-    padding: 1.5rem;
-  }
+
   .sticky-info {
     display: none;
   }
+
   .sticky-container {
     justify-content: center;
   }
+
   .sticky-bar .btn {
     width: 100%;
-    max-width: 320px;
+  }
+
+  .poem-stage {
+    padding: 2.5rem 1.5rem;
   }
 }
