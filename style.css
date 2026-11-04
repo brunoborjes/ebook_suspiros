@@ -2,7 +2,6 @@
    DESIGN SYSTEM & VARIÁVEIS (EDITORIAL EDITON)
    ========================================================================== */
 :root {
-  /* Paleta Inspirada em Papel, Tinta e Tons Ameixa Profundos */
   --bg-main: #FAF7F9;
   --bg-surface: #FFFFFF;
   --bg-subtle: #F3ECF1;
@@ -22,23 +21,19 @@
   --border-subtle: #E8DEE5;
   --border-strong: #D5C4CF;
   
-  /* Tipografia */
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   
-  /* Sombras & Profundidade */
   --shadow-sm: 0 2px 8px rgba(28, 21, 33, 0.04);
   --shadow-md: 0 12px 32px rgba(28, 21, 33, 0.06);
   --shadow-lg: 0 24px 48px rgba(28, 21, 33, 0.1);
   --shadow-brand: 0 12px 28px rgba(179, 52, 104, 0.25);
   
-  /* Transições Fluidas */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: 0.2s var(--ease-out-expo);
   --transition-normal: 0.4s var(--ease-out-expo);
 }
 
-/* Reset Global */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -60,13 +55,11 @@ body {
   overflow-x: hidden;
 }
 
-/* Acessibilidade - Foco Visível */
 :focus-visible {
   outline: 2px solid var(--brand-primary);
   outline-offset: 4px;
 }
 
-/* Layout Containers */
 .container {
   width: 90%;
   max-width: 1160px;
@@ -77,7 +70,6 @@ body {
   max-width: 760px;
 }
 
-/* Animação Fade Up */
 .fade-up {
   opacity: 0;
   transform: translateY(30px);
@@ -91,7 +83,7 @@ body {
 }
 
 /* ==========================================================================
-   PARTÍCULAS DENTE-DE-LEÃO (CSS FLUTUANTE LEVE)
+   PARTÍCULAS DENTE-DE-LEÃO (FLUTUANDO POR TODA A TELA)
    ========================================================================== */
 #dandelion-container {
   position: fixed;
@@ -103,29 +95,35 @@ body {
 
 .dandelion-particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background-color: var(--brand-primary);
-  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  color: var(--brand-primary);
   opacity: 0;
-  box-shadow: 0 0 8px var(--brand-primary);
-  animation: floatParticle linear forwards;
+  will-change: transform, opacity;
+  animation: floatDandelion var(--duration, 15s) ease-in-out forwards;
 }
 
-@keyframes floatParticle {
+.dandelion-particle svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 6px rgba(179, 52, 104, 0.15));
+}
+
+@keyframes floatDandelion {
   0% {
     opacity: 0;
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0) scale(var(--scale, 1)) rotate(0deg);
   }
   20% {
-    opacity: 0.4;
+    opacity: var(--max-opacity, 0.4);
   }
   80% {
-    opacity: 0.4;
+    opacity: var(--max-opacity, 0.4);
   }
   100% {
     opacity: 0;
-    transform: translate(120px, -80vh) rotate(180deg);
+    /* Movimenta dinamicamente para os lados (X) e para cima (Y) */
+    transform: translate(var(--end-x, 150px), var(--end-y, -100vh)) scale(var(--scale, 1)) rotate(var(--rotation, 180deg));
   }
 }
 
@@ -345,7 +343,6 @@ body {
   color: var(--brand-primary);
 }
 
-/* Palco da Capa do Livro */
 .hero-media {
   display: flex;
   justify-content: center;
@@ -382,7 +379,6 @@ body {
   transform-style: preserve-3d;
 }
 
-/* Indicador de rolagem */
 .scroll-indicator {
   display: inline-flex;
   flex-direction: column;
@@ -408,7 +404,7 @@ body {
 }
 
 /* ==========================================================================
-   CITAÇÃO LITERÁRIA (LEMINSKI)
+   CITAÇÃO LITERÁRIA
    ========================================================================== */
 .quote-section {
   padding: 5rem 0;
@@ -503,7 +499,6 @@ body {
   line-height: 1.8;
 }
 
-/* Temas / Pilares */
 .themes-wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -551,7 +546,7 @@ body {
 }
 
 /* ==========================================================================
-   EXCERPT / AMOSTRA DE POEMA (DARK MODE NOTURNO)
+   EXCERPT / AMOSTRA DE POEMA
    ========================================================================== */
 .excerpt-section {
   padding: 7rem 0;
@@ -751,7 +746,7 @@ body {
 }
 
 /* ==========================================================================
-   FAQ ACCORDION (ACESSIBILIDADE & ANIMAÇÃO SUAVE)
+   FAQ ACCORDION
    ========================================================================== */
 .faq-section {
   padding: 6rem 0;
@@ -811,7 +806,7 @@ body {
 }
 
 .faq-content[hidden] {
-  display: grid; /* Mantém acessível para animação CSS */
+  display: grid;
 }
 
 .faq-trigger[aria-expanded="true"] + .faq-content {
